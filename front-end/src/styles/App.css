@@ -1,0 +1,15 @@
+.app-container {
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically (optional) */
+    margin: 0 auto; /* Ensures it's centered within the viewport */
+  }
+  
+  .content-wrapper {
+    width: 100%;
+    min-width: 1300px;
+    max-width: 1920px; /* Adjust to your preference */
+  }
+  

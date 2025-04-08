@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import "../styles/Navbar.css";
-import logo from '../assets/logo.webp';
+import logo from '../assets/logo.png';
 import { AuthContext } from '../context/AuthContext';
 import type { AuthContextType } from '../context/AuthContext';
 
@@ -39,31 +39,27 @@ const Navbar: React.FC = () => {
     <nav className="navbar">
       <div className="logo-container">
         <img src={logo} alt="al-sat-kirala" className="logo" />
-        <h2 className="brand-name"><Link to="/">Emlak-Kirala-Al-Sat</Link></h2>
+        <h2 className="brand-name"><Link to="/">Brew Beans App</Link></h2>
       </div>
       <div className="nav-links">
-        <Link to="/">Ana Sayfa</Link>
-        <Link to="/listings">Satin Al</Link>
-        <Link to="/listing">Sat</Link>
-        <Link to="/listing">Kirala</Link>
+        <Link to="/">Home</Link>
         {user ? (
-          <div className="user-dropdown" ref={dropdownRef}>
+          <div className="user-dropdown" ref={dropdownRef}>         
             <button onClick={toggleDropdown} className="nav-button dropdown-toggle">
               {user.name}
             </button>
             {dropdownOpen && (
               <div className="dropdown-menu">
-                <Link to="/profile/profileinfo">Profilim</Link>
-                <Link to="/profile/listings">Ilanlarim</Link>
-                <Link to="/profile/settings">Ayarlar</Link>
-                <Link className="logout-button" to="/" onClick={handleLogout}>Çıkış Yap</Link>
+                <Link to="/profile">Profile</Link>
+                <Link to="/my-orders">My Orders</Link>
+                <Link className="logout-button" to="/" onClick={handleLogout}>Log Out</Link>
               </div>
             )}
           </div>
         ) : (
           <>
-            <Link to="/login" className="nav-button">Giris Yap</Link>
-            <Link to="/signup" className="nav-button">Kayit Ol</Link>
+            <Link to="/login" className="nav-button">Login</Link>
+            <Link to="/signup" className="nav-button">Signup</Link>
           </>
         )}
       </div>
