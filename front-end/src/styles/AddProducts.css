@@ -1,4 +1,6 @@
-/* Container holding the entire form */
+/* AddProducts.css */
+
+/* Container for the entire form */
 .add-product-container {
     max-width: 600px;
     margin: 2rem auto;
@@ -28,6 +30,29 @@
     flex-direction: column;
     margin-bottom: 1rem;
   }
+
+  .form-group img {
+    width: 250px;
+    height: 300px;
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+  }
+
+  .form-group-top-section {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    gap: 2rem;
+  }
+
+  .form-group-right-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding: 0 1rem ;
+    box-sizing: border-box;
+  }
   
   /* Labels inside form groups */
   .form-group label {
@@ -51,6 +76,66 @@
   .form-group textarea:focus {
     outline: none;
     border-color: #3498db;
+  }
+
+  .form-group textarea {
+    resize: none;
+    width: 1000px;
+  }  
+  
+  /* Image upload group styling */
+  .image-upload-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .upload-logo-button {
+    background-color: transparent;
+    border: none;
+    cursor: not-allowed;
+    padding: 0;
+  }
+  
+  .upload-logo {
+    width: 250px;
+    height: 300px;
+    background: #fff;
+    border-radius: 10px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+
+  .add-image-button {
+    padding: 0.5rem 1rem;
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    cursor: not-allowed;
+  }
+  
+  /* Disabled message styling */
+  .disabled-message {
+    font-size: 0.9rem;
+    color: #888;
+  }
+  
+  /* Checkbox group styling */
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .checkbox-group label {
+    font-weight: normal;
+    color: #333;
+  }
+  
+  .checkbox-group input {
+    margin-right: 0.5rem;
   }
   
   /* Button container styling */
@@ -96,6 +181,7 @@
   @media (max-width: 600px) {
     .add-product-container {
       padding: 1rem;
+      margin: 1rem;
     }
   
     .form-buttons {
