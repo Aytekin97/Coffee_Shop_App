@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from '../context/AuthContext';
 import type { AuthContextType } from '../context/AuthContext';
-import "../styles/user-profile-styles/ProfilePage.css"
+import "../styles/ProfileInfo.css"
 import anonymous from "../assets/anonymous.png";
 
 const ProfileInfo: React.FC = () => {

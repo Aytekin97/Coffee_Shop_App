@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Home from "./pages/Home";
+import ProfileInfo from "./pages/ProfileInfo";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -18,6 +19,9 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<PrivateRoute />}>
                 <Route index element={<Home />} />
+              </Route>
+              <Route path="/profile" element={<PrivateRoute />}>
+                <Route index element={<ProfileInfo />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />          
