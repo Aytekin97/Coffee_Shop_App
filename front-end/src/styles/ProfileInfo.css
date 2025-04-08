@@ -1,7 +1,6 @@
 .profile-container {
   display: flex;
   height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevents full page scrolling */
 }
 
 .main-profile-info-container {
@@ -15,6 +14,7 @@
   max-width: 1000px;
   width: 100%;
   margin: auto;
+  margin-top: 20px;
 }
 
 .profile-info-edit-section {

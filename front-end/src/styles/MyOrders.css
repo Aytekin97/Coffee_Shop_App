@@ -1,0 +1,66 @@
+/* Container for the entire page */
+.my-orders-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Main page title */
+  .my-orders-container h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Orders list styling */
+  .orders-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Each order item card */
+  .order-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for order item headers */
+  .order-item h2 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  /* Order items list within each order card */
+  .order-items {
+    list-style: disc;
+    margin: 0.5rem 0 1rem 2rem;
+    padding: 0;
+  }
+  
+  /* Spacing for individual items in the inner order list */
+  .order-items li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 600px) {
+    .my-orders-container {
+      padding: 1rem;
+      margin: 1rem;
+    }
+    
+    .order-item {
+      padding: 0.75rem;
+    }
+  }
+  

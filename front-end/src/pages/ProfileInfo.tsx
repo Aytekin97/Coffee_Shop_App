@@ -27,7 +27,7 @@ const ProfileInfo: React.FC = () => {
         {!isEditMode ? (
           <>
             <div className="profile-info-edit-section">
-              <h2>Kişisel Bilgileriniz</h2>
+              <h2>Your Personal Information</h2>
               <button 
                 className="edit-profile-button" 
                 onClick={() => setEditMode(true)}
@@ -41,11 +41,11 @@ const ProfileInfo: React.FC = () => {
               </div>
               <div className="profile-details-c2">
                 <div className="first-name info-box">
-                  <h2>İsim:</h2>           
+                  <h2>First Name:</h2>           
                   <p>{user?.name}</p>
                 </div>
                 <div className="last-name info-box">
-                  <h2>Soyisim:</h2>           
+                  <h2>Last Name:</h2>           
                   <p>Akbulut</p>
                 </div>
                 <div className="user-email info-box">
@@ -56,53 +56,53 @@ const ProfileInfo: React.FC = () => {
             </div>
             
             <div className="section-header">
-              <h2>Detaylar</h2>
+              <h2>Details</h2>
             </div>    
             <div className="user-profile-details">
               <div className="profile-details-c1 birth-year info-box">
-                <h2>Doğum Tarihi</h2>             
-                <p>{dob || "Belirtilmedi"}</p>
+                <h2>Birth Date</h2>             
+                <p>{dob || "Not Specified"}</p>
               </div>
               <div className="profile-details-c2 gender-info info-box">
-                <h2>Cinsiyet</h2>           
-                <p>{gender || "Belirtilmedi"}</p>
+                <h2>Gender</h2>           
+                <p>{gender || "Not Specified"}</p>
               </div>
             </div>
 
             <div className="section-header">
-              <h2>İletişim Bilgileriniz</h2>
+              <h2>Your Contact Information</h2>
             </div>     
             <div className="user-profile-contact">
               <div className="profile-details-c1 city-info info-box">
-                <h2>Şehir:</h2>             
+                <h2>City:</h2>             
                 <p>{city}</p> 
               </div>
               <div className="profile-details-c1 home-phone info-box">
-                <h2>Ev Telefonu:</h2>             
+                <h2>Home Phone:</h2>             
                 <p>{homePhone}</p> 
               </div>
               <div className="profile-details-c2 postal-code info-box">
-                <h2>Posta Kodu:</h2>             
+                <h2>Postal Code:</h2>             
                 <p>{postalCode}</p> 
               </div>
               <div className="profile-details-c2 mobile-phone info-box">
-                <h2>Cep Telefonu:</h2>             
+                <h2>Mobile Phone:</h2>             
                 <p>{mobilePhone}</p> 
               </div>
             </div>
             <div className="button-section">
-              <button className="user-delete-button">Hesabımı Sil</button>
+              <button className="user-delete-button">Delete My Account</button>
             </div>
           </>
         ) : (
           <>
             <div className="profile-info-edit-section">
-              <h2>Profili Düzenle</h2>
+              <h2>Edit Profile</h2>
               <button 
                 className="edit-profile-button" 
                 onClick={() => setEditMode(false)}
               >
-                Kaydet
+                Save
               </button>
             </div>
             <div className="user-profile-info">
@@ -111,11 +111,11 @@ const ProfileInfo: React.FC = () => {
               </div>
               <div className="profile-details-c2">
                 <div className="first-name info-box">
-                  <h2>İsim:</h2>           
+                  <h2>First Name:</h2>           
                   <input type="text" defaultValue={user?.name} className="input-field" />
                 </div>
                 <div className="last-name info-box">
-                  <h2>Soyisim:</h2>           
+                  <h2>Last Name:</h2>           
                   <input type="text" defaultValue="Akbulut" className="input-field" />
                 </div>
                 <div className="user-email info-box">
@@ -126,42 +126,42 @@ const ProfileInfo: React.FC = () => {
             </div>
             
             <div className="section-header">
-              <h2>Detaylar</h2>
+              <h2>Details</h2>
             </div>    
             <div className="user-profile-details">
               <div className="profile-details-c1 birth-year info-box">
-                <h2>Doğum Tarihi</h2>             
+                <h2>Birth Date</h2>             
                 <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="dob-input input-field" />
               </div>
               <div className="profile-details-c2 gender-info info-box">
-                <h2>Cinsiyet</h2>           
+                <h2>Gender</h2>           
                 <select value={gender} onChange={(e) => setGender(e.target.value)} className="gender-select input-field">
-                  <option value="">Seçiniz</option>
-                  <option value="male">Erkek</option>
-                  <option value="female">Kadın</option>
-                  <option value="other">Diğer</option>
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
             </div>
 
             <div className="section-header">
-              <h2>İletişim Bilgileriniz</h2>
+              <h2>Your Contact Information</h2>
             </div>     
             <div className="user-profile-contact">
               <div className="profile-details-c1 city-info info-box">
-                <h2>Şehir:</h2>             
+                <h2>City:</h2>             
                 <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="input-field" />
               </div>
               <div className="profile-details-c1 home-phone info-box">
-                <h2>Ev Telefonu:</h2>             
+                <h2>Home Phone:</h2>             
                 <input type="text" value={homePhone} onChange={(e) => setHomePhone(e.target.value)} className="input-field" />
               </div>
               <div className="profile-details-c2 postal-code info-box">
-                <h2>Posta Kodu:</h2>             
+                <h2>Postal Code:</h2>             
                 <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} className="input-field" />
               </div>
               <div className="profile-details-c2 mobile-phone info-box">
-                <h2>Cep Telefonu:</h2>             
+                <h2>Mobile Phone:</h2>             
                 <input type="text" value={mobilePhone} onChange={(e) => setMobilePhone(e.target.value)} className="input-field" />
               </div>
             </div>
@@ -169,6 +169,7 @@ const ProfileInfo: React.FC = () => {
         )}
       </div>
     </div>
+
   );
 }
 

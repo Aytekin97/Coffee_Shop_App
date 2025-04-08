@@ -1,0 +1,102 @@
+/* Home.css */
+
+/* Main container for the home page */
+.home-container {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Page headings */
+  .home-container h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .home-container h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Lists styling (menu and basket) */
+  .menu-list,
+  .basket-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-list li,
+  .basket-list li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Button for adding items in the menu */
+  .menu-list li button {
+    background-color: #3498db;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-list li button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Grouping for Cancel and Order buttons */
+  .button-group {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Common styling for Cancel and Order buttons */
+  .button-group button {
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Specific button colors */
+  .button-group .cancel-btn {
+    background-color: #e74c3c;
+  }
+  
+  .button-group .cancel-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .button-group .order-btn {
+    background-color: #2ecc71;
+  }
+  
+  .button-group .order-btn:hover {
+    background-color: #27ae60;
+  }
+  
+  /* Optional: Adjust basket list items layout if needed */
+  .basket-list li {
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  

@@ -7,6 +7,8 @@ import ProfileInfo from "./pages/ProfileInfo";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import AddProducts from "./pages/AddProducts";
+import MyOrders from "./pages/MyOrders";
 import "./styles/App.css";
 
 const App: React.FC = () => {
@@ -22,6 +24,12 @@ const App: React.FC = () => {
               </Route>
               <Route path="/profile" element={<PrivateRoute />}>
                 <Route index element={<ProfileInfo />} />
+              </Route>
+              <Route path="/add-products" element={<PrivateRoute />}>
+                <Route index element={<AddProducts />} />
+              </Route>
+              <Route path="/my-orders" element={<PrivateRoute />}>
+                <Route index element={<MyOrders />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />          

@@ -44,7 +44,8 @@ const Navbar: React.FC = () => {
       <div className="nav-links">
         <Link to="/">Home</Link>
         {user ? (
-          <div className="user-dropdown" ref={dropdownRef}>         
+          <div className="user-dropdown" ref={dropdownRef}> 
+            <Link to="/add-products">Add Products</Link>        
             <button onClick={toggleDropdown} className="nav-button dropdown-toggle">
               {user.name}
             </button>

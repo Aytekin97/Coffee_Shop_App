@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/Home.css';
 
 interface CoffeeItem {
   id: number;
@@ -66,18 +67,15 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
+    <div className="home-container">
       <h1>Coffee Shop Menu</h1>
-      <ul>
+      <ul className="menu-list">
         {coffeeItems.map((item) => (
-          <li key={item.id} style={{ marginBottom: '0.5rem' }}>
+          <li key={item.id}>
             <span>
               {item.name} (${item.price.toFixed(2)})
             </span>
-            <button
-              style={{ marginLeft: '1rem' }}
-              onClick={() => addToBasket(item)}
-            >
+            <button onClick={() => addToBasket(item)}>
               Add to Basket
             </button>
           </li>
@@ -88,10 +86,11 @@ const Home: React.FC = () => {
       {basket.length === 0 ? (
         <p>No items in your basket.</p>
       ) : (
-        <ul>
+        <ul className="basket-list">
           {basket.map((bItem) => {
-            // Find the coffee item details (optional, for display purposes)
-            const details = coffeeItems.find((coffee) => coffee.id === bItem.id);
+            const details = coffeeItems.find(
+              (coffee) => coffee.id === bItem.id
+            );
             return (
               <li key={bItem.id}>
                 {details?.name} x {bItem.quantity}
@@ -101,11 +100,13 @@ const Home: React.FC = () => {
         </ul>
       )}
 
-      <div style={{ marginTop: '1rem' }}>
-        <button onClick={handleCancel} style={{ marginRight: '1rem' }}>
+      <div className="button-group">
+        <button onClick={handleCancel} className="cancel-btn">
           Cancel
         </button>
-        <button onClick={handleOrder}>Order</button>
+        <button onClick={handleOrder} className="order-btn">
+          Order
+        </button>
       </div>
     </div>
   );
