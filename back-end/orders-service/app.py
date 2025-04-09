@@ -33,7 +33,7 @@ def get_db():
 @app.get("/api/get-orders", response_model=ReturnOrdersResponseSchema)
 async def get_orders(user_id: int, db: Session = Depends(get_db)):
     """
-    Returns all orders in the database.
+    Returns all orders in the database for a specific user, including computed totals.
     """
     try:
         orders = (
@@ -53,7 +53,6 @@ async def get_orders(user_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         logger.error("Error retrieving orders: %s", str(e))
         raise HTTPException(status_code=500, detail="An error occurred while retrieving orders.")
-    
 
 @app.post("/api/create-order")
 async def create_order(
@@ -62,22 +61,47 @@ async def create_order(
 ):
     """
     Create a new order for the specified user with the provided list of product IDs,
-    and return a confirmation message.
+    calculate the subtotal and order total (subtotal + 13% tax), and return a confirmation message.
     """
     try:
-        logger.info(order_request)
-        logger.info(DATABASE_URL)
-        # Create the order record
+        logger.info(f"Received order request: {order_request}")
+        logger.info(f"Using DB URL: {DATABASE_URL}")
+        
+        # Create the order record without totals first.
         new_order = OrderModel(user_id=order_request.user_id)
         db.add(new_order)
         db.commit()
         db.refresh(new_order)
+        logger.info(f"Created order with ID: {new_order.id}")
 
-        # Add an order item for each product ID
+        # Add an order item for each product ID.
         for product_id in order_request.product_ids:
             order_item = OrderItemModel(order_id=new_order.id, product_id=product_id)
             db.add(order_item)
+        db.commit()
+        logger.info("Order items added successfully.")
+
+        # Calculate subtotal by summing product prices for each order item.
+        subtotal = 0.0
+        order_items = (
+            db.query(OrderItemModel)
+            .options(joinedload(OrderItemModel.product))
+            .filter(OrderItemModel.order_id == new_order.id)
+            .all()
+        )
+        logger.info(f"Found {len(order_items)} order items for order {new_order.id}")
+        for item in order_items:
+            if item.product:
+                subtotal += item.product.price
+            else:
+                logger.warning(f"Order item ID {item.id} has no associated product.")
         
+        # Calculate total with tax (13%).
+        order_total = subtotal * 1.13
+
+        # Update the order with computed totals.
+        new_order.subtotal = subtotal
+        new_order.order_total = order_total
         db.commit()
     
         return JSONResponse(
@@ -86,8 +110,8 @@ async def create_order(
         )
     except Exception as e:
         db.rollback()
-        logger.error("Error creating order: %s", str(e))
-        raise HTTPException(status_code=500, detail="An error occurred while creating the order.")
+        logger.error(f"Error creating order: {e}")
+        raise HTTPException(status_code=500, detail=f"An error occurred while creating the order: {e}")
 
 
 if __name__ == "__main__":

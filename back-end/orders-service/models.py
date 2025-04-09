@@ -37,6 +37,10 @@ class OrderModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    
+    # New fields for order calculation.
+    subtotal = Column(Float, nullable=False, default=0.0)
+    order_total = Column(Float, nullable=False, default=0.0)
 
     # One order -> many order items
     order_items = relationship(
@@ -64,4 +68,3 @@ class User(Base):
         cascade="all, delete-orphan",
         passive_deletes=True
     )
-
