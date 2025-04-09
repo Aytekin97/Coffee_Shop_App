@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import type { AuthContextType } from '../context/AuthContext';
 import '../styles/Home.css';
@@ -13,6 +14,7 @@ interface CoffeeItem {
   description: string;
   category: string;
   created_at: string;
+  quantity_available: number; // New field for quantity available
 }
 
 interface BasketItem {
@@ -21,7 +23,7 @@ interface BasketItem {
 }
 
 const Home: React.FC = () => {
-  // State to hold the fetched products and basket items.
+  // State for fetched products and basket items.
   const [coffeeItems, setCoffeeItems] = useState<CoffeeItem[]>([]);
   const [basket, setBasket] = useState<BasketItem[]>([]);
 
@@ -41,7 +43,7 @@ const Home: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        // Map returned product data to match the CoffeeItem interface.
+        // Map returned product data to include available quantity.
         const items = data.map((prod: any) => ({
           id: prod.id,
           product_name: prod.product_name,
@@ -49,6 +51,7 @@ const Home: React.FC = () => {
           description: prod.description,
           category: prod.category,
           created_at: prod.created_at,
+          quantity_available: prod.quantity, // Ensure backend sends this field
         }));
         setCoffeeItems(items);
       })
@@ -107,6 +110,9 @@ const Home: React.FC = () => {
         console.log("Order success:", data);
         // Optionally clear the basket after successful order creation.
         setBasket([]);
+        // Display a message and then refresh the page.
+        alert("Order placed successfully!");
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error creating order:", error);
@@ -123,14 +129,32 @@ const Home: React.FC = () => {
           {coffeeItems.map((item) => (
             <li key={item.id}>
               <div className="product-details">
-                <strong>{item.product_name}</strong> 
-                <p><em><strong>Description:</strong></em> {item.description}</p>
-                <p><em><strong>Category:</strong></em> {item.category}</p>
-                <p><em><strong>Price:</strong></em> ${item.price.toFixed(2)}</p>
+                <strong>{item.product_name}</strong>
+                <p>
+                  <em><strong>Description:</strong></em> {item.description}
+                </p>
+                <p>
+                  <em><strong>Category:</strong></em> {item.category}
+                </p>
+                <p>
+                  <em><strong>Price:</strong></em> ${item.price.toFixed(2)}
+                </p>
+                <p>
+                  <em><strong>Available:</strong></em> {item.quantity_available}
+                </p>
               </div>
-              <button onClick={() => addToBasket(item)}>
-                Add to Basket
-              </button>
+              {/* If no stock is available, disable button and display "Out of Stock" */}
+              {item.quantity_available === 0 ? (
+                <button disabled>Out of Stock</button>
+              ) : (
+                <button onClick={() => addToBasket(item)}>
+                  Add to Basket
+                </button>
+              )}
+              {/* Button to edit product; passes the item details via route state */}
+              <Link to="/edit-product" state={{ product: item }}>
+                <button className="edit-btn">Edit Product</button>
+              </Link>
             </li>
           ))}
         </ul>
@@ -144,7 +168,6 @@ const Home: React.FC = () => {
           <ul className="basket-list">
             {basket.map((bItem) => {
               const details = coffeeItems.find((coffee) => coffee.id === bItem.id);
-              // Calculate the line subtotal for this basket item
               const lineSubtotal = details ? details.price * bItem.quantity : 0;
               return (
                 <li key={bItem.id} className="basket-item">
@@ -190,14 +213,9 @@ const Home: React.FC = () => {
         </>
       )}
 
-
       <div className="button-group">
-        <button onClick={handleCancel} className="cancel-btn">
-          Cancel
-        </button>
-        <button onClick={handleOrder} className="order-btn">
-          Order
-        </button>
+        <button onClick={handleCancel} className="cancel-btn">Cancel</button>
+        <button onClick={handleOrder} className="order-btn">Order</button>
       </div>
     </div>
   );

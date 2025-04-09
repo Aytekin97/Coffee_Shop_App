@@ -1,3 +1,4 @@
+from collections import Counter
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -61,7 +62,9 @@ async def create_order(
 ):
     """
     Create a new order for the specified user with the provided list of product IDs,
-    calculate the subtotal and order total (subtotal + 13% tax), and return a confirmation message.
+    reduce the available quantity for each product accordingly,
+    calculate the subtotal and order total (subtotal + 13% tax),
+    and return a confirmation message.
     """
     try:
         logger.info(f"Received order request: {order_request}")
@@ -73,14 +76,33 @@ async def create_order(
         db.commit()
         db.refresh(new_order)
         logger.info(f"Created order with ID: {new_order.id}")
-
-        # Add an order item for each product ID.
+        
+        # Group ordered product IDs by count.
+        ordered_counts = Counter(order_request.product_ids)
+        
+        # For each product in the order, verify stock availability and decrement quantity.
+        for product_id, count in ordered_counts.items():
+            product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
+            if not product:
+                raise HTTPException(status_code=404, detail=f"Product with ID {product_id} not found.")
+            if product.quantity < count:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Not enough stock for product '{product.product_name}'. Available: {product.quantity}, Requested: {count}"
+                )
+            # Reduce available quantity.
+            product.quantity -= count
+        
+        db.commit()
+        logger.info("Product quantities updated based on the order.")
+        
+        # Add an order item for each product ID in the order (duplicates represent multiple orders)
         for product_id in order_request.product_ids:
             order_item = OrderItemModel(order_id=new_order.id, product_id=product_id)
             db.add(order_item)
         db.commit()
         logger.info("Order items added successfully.")
-
+        
         # Calculate subtotal by summing product prices for each order item.
         subtotal = 0.0
         order_items = (

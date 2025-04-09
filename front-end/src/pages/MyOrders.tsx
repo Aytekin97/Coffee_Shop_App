@@ -20,8 +20,8 @@ interface Order {
   id: number;
   created_at: string;
   order_items: OrderItem[];
-  // If your schema returns a "total" field, include it here.
-  total?: number;
+  subtotal: number;     // New: Subtotal for the order
+  order_total: number;  // New: Total amount (subtotal + tax)
 }
 
 const MyOrders: React.FC = () => {
@@ -32,7 +32,7 @@ const MyOrders: React.FC = () => {
   const user_id = 1;
 
   useEffect(() => {
-    // Read the orders base URL from your environment variable
+    // Read the orders base URL from your environment variable.
     const ORDERS_BASE_URL = import.meta.env.VITE_ORDERS_BASE_URL;
     fetch(`${ORDERS_BASE_URL}/api/get-orders?user_id=${user_id}`)
       .then((res) => {
@@ -74,9 +74,12 @@ const MyOrders: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              {order.total !== undefined && (
-                <p>Total: ${order.total.toFixed(2)}</p>
-              )}
+              <p>
+                <strong>Subtotal:</strong> ${order.subtotal.toFixed(2)}
+              </p>
+              <p>
+                <strong>Order Total:</strong> ${order.order_total.toFixed(2)}
+              </p>
             </li>
           ))}
         </ul>

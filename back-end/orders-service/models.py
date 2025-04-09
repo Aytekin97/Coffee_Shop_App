@@ -10,6 +10,7 @@ class ProductModel(Base):
     price = Column(Float, nullable=False)
     description = Column(String, nullable=True)
     category = Column(String, nullable=True)
+    quantity = Column(Integer, nullable=False, default=0)  # NEW: quantity in stock
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
 
     # One product -> many order items

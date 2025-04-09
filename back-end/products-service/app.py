@@ -50,7 +50,7 @@ async def create_product(
     Create a new product in the database.
     """
     try:
-        # Create a new product using values from the request schema
+        # Create a new product using values from the request schema (including quantity)
         new_product = ProductModel(**product.dict())
         db.add(new_product)
         db.commit()
@@ -63,6 +63,41 @@ async def create_product(
         db.rollback()
         logger.error("Error creating product: %s", str(e))
         raise HTTPException(status_code=500, detail="An error occurred while creating the product.")
+
+
+@app.put("/api/edit-product/{product_id}")
+async def edit_product(
+    product_id: int,
+    product: CreateNewProductRequestSchema,
+    db: Session = Depends(get_db)
+):
+    """
+    Edit an existing product in the database.
+    """
+    try:
+        existing_product = db.query(ProductModel).filter(ProductModel.id == product_id).first()
+        if not existing_product:
+            raise HTTPException(status_code=404, detail=f"Product with id {product_id} not found.")
+        
+        # Update the product fields, including quantity
+        existing_product.product_name = product.product_name
+        existing_product.price = product.price
+        existing_product.description = product.description
+        existing_product.category = product.category
+        existing_product.quantity = product.quantity
+        
+        db.commit()
+        db.refresh(existing_product)
+        
+        return JSONResponse(
+            status_code=200,
+            content={"message": "Product updated successfully."}
+        )
+    except Exception as e:
+        db.rollback()
+        logger.error("Error updating product: %s", str(e))
+        raise HTTPException(status_code=500, detail="An error occurred while updating the product.")
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8001))

@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AddProducts from "./pages/AddProducts";
 import MyOrders from "./pages/MyOrders";
+import EditProduct from "./pages/EditProduct";
 import "./styles/App.css";
 
 const App: React.FC = () => {
@@ -30,6 +31,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/my-orders" element={<PrivateRoute />}>
                 <Route index element={<MyOrders />} />
+              </Route>
+              <Route path="/edit-product" element={<PrivateRoute />}>
+                <Route index element={<EditProduct />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />          

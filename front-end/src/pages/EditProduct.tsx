@@ -1,67 +1,86 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/AddProducts.css";
 import logoPlaceholder from "../assets/coffee-add-logo.png";
 
-const AddProducts: React.FC = () => {
-  const navigate = useNavigate(); // ✅ navigation hook
+interface Product {
+  id: number;
+  product_name: string;
+  price: number;
+  description: string;
+  category: string;
+  quantity: number; // ✅ NEW
+  created_at: string;
+}
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [quantity, setQuantity] = useState("");
+const EditProduct: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state as { product: Product } | null;
+  const initialProduct = state?.product || {
+    id: 0,
+    product_name: "",
+    price: 0,
+    description: "",
+    category: "",
+    quantity: 0,
+    created_at: ""
+  };
+
+  const [name, setName] = useState(initialProduct.product_name);
+  const [price, setPrice] = useState(String(initialProduct.price));
+  const [description, setDescription] = useState(initialProduct.description);
+  const [category, setCategory] = useState(initialProduct.category);
+  const [quantity, setQuantity] = useState(String(initialProduct.quantity));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleReset = () => {
-    setName("");
-    setPrice("");
-    setDescription("");
-    setCategory("");
-    setQuantity("");
+    setName(initialProduct.product_name);
+    setPrice(String(initialProduct.price));
+    setDescription(initialProduct.description);
+    setCategory(initialProduct.category);
+    setQuantity(String(initialProduct.quantity));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const newProduct = {
+    const updatedProduct = {
       product_name: name,
       price: parseFloat(price),
       description,
       category,
-      quantity: parseInt(quantity, 10)
+      quantity: parseInt(quantity, 10), // ✅ Include quantity
     };
 
     const PRODUCTS_BASE_URL = import.meta.env.VITE_PRODUCTS_BASE_URL;
-    fetch(`${PRODUCTS_BASE_URL}/api/create-product`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
+    fetch(`${PRODUCTS_BASE_URL}/api/edit-product/${initialProduct.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedProduct),
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Failed to create product");
+          throw new Error("Failed to update product");
         }
         return res.json();
       })
       .then((data) => {
-        console.log("Product created successfully!", data);
+        console.log("Product updated successfully!", data);
         setIsSubmitting(false);
-        alert("Product created successfully!"); // ✅ success message
-        navigate("/"); // ✅ redirect to home
+        alert("Product updated successfully!");
+        navigate("/"); // ✅ Redirect to homepage
       })
       .catch((error) => {
-        console.error("Error creating product:", error);
+        console.error("Error updating product:", error);
         setIsSubmitting(false);
       });
   };
 
   return (
     <div className="add-product-container">
-      <h1>Add New Product</h1>
+      <h1>Edit Product</h1>
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="form-group-top-section">
           <div className="form-group image-upload-group">
@@ -125,6 +144,7 @@ const AddProducts: React.FC = () => {
           </select>
         </div>
 
+        {/* ✅ Quantity Field */}
         <div className="form-group">
           <label htmlFor="quantity">Quantity in Stock:</label>
           <input
@@ -143,7 +163,7 @@ const AddProducts: React.FC = () => {
             Reset
           </button>
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Submitting..." : "Save"}
           </button>
         </div>
       </form>
@@ -151,4 +171,4 @@ const AddProducts: React.FC = () => {
   );
 };
 
-export default AddProducts;
+export default EditProduct;
