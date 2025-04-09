@@ -8,6 +8,9 @@ import os
 from models import ProductModel, OrderModel, OrderItemModel
 from schemas import CreateNewOrderRequestSchema, ReturnOrdersResponseSchema
 from database import SessionLocal, Base, engine
+from config import settings
+
+DATABASE_URL = settings.db_url
 
 app = FastAPI()
 app.add_middleware(
@@ -62,6 +65,8 @@ async def create_order(
     and return a confirmation message.
     """
     try:
+        logger.info(order_request)
+        logger.info(DATABASE_URL)
         # Create the order record
         new_order = OrderModel(user_id=order_request.user_id)
         db.add(new_order)
