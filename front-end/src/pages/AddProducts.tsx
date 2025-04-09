@@ -3,33 +3,25 @@ import "../styles/AddProducts.css";
 import logoPlaceholder from "../assets/coffee-add-logo.png";
 
 const AddProducts: React.FC = () => {
-  // Form field state
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [glutenFree, setGlutenFree] = useState(false);
-  const [plantBased, setPlantBased] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Reset the form fields
   const handleReset = () => {
     setName("");
     setPrice("");
     setDescription("");
     setCategory("");
-    setGlutenFree(false);
-    setPlantBased(false);
   };
 
-  // Handle form submission and create a new product
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Prepare the product payload with the correct field names
     const newProduct = {
-      product_name: name,  // map local 'name' to backend field 'product_name'
+      product_name: name,
       price: parseFloat(price),
       description,
       category,
@@ -37,7 +29,6 @@ const AddProducts: React.FC = () => {
 
     console.log("Submitting new product:", newProduct);
 
-    // Build the URL using the environment variable
     const PRODUCTS_BASE_URL = import.meta.env.VITE_PRODUCTS_BASE_URL;
     fetch(`${PRODUCTS_BASE_URL}/api/create-product`, {
       method: "POST",
@@ -55,7 +46,6 @@ const AddProducts: React.FC = () => {
       .then((data) => {
         console.log("Product created successfully!", data);
         setIsSubmitting(false);
-        // Optionally, clear the form after successful submission.
         handleReset();
       })
       .catch((error) => {
@@ -113,35 +103,23 @@ const AddProducts: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className="form-group">
           <label htmlFor="category">Category:</label>
-          <input
+          <select
             id="category"
-            type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          />
+            required
+          >
+            <option value="">Select a category</option>
+            <option value="Hot Drinks">Hot Drinks</option>
+            <option value="Cold Drinks">Cold Drinks</option>
+            <option value="Blended">Blended</option>
+            <option value="Specialty">Specialty</option>
+          </select>
         </div>
-        <div className="form-group checkbox-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={glutenFree}
-              onChange={(e) => setGlutenFree(e.target.checked)}
-            />
-            Gluten Free
-          </label>
-        </div>
-        <div className="form-group checkbox-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={plantBased}
-              onChange={(e) => setPlantBased(e.target.checked)}
-            />
-            Plant Based
-          </label>
-        </div>
+
         <div className="form-buttons">
           <button type="button" onClick={handleReset}>
             Reset

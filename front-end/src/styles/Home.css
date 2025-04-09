@@ -8,6 +8,7 @@
     color: #333;
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 30px;
   }
   
   /* Page headings */
@@ -100,3 +101,31 @@
     gap: 1rem;
   }
   
+  /* Style for each basket item */
+.basket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* Ensure the item name and subtotal appear nicely */
+.basket-item-name {
+  font-weight: bold;
+}
+.basket-item-subtotal {
+  font-style: italic;
+}
+
+/* Style for the overall basket summary */
+.basket-summary {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
